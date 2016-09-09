@@ -33,7 +33,7 @@ PROGS = basecomp bbcomp decoymasker getcontext \
 
 CXX = g++
 CFLAGS = -Wall -fmessage-length=50
-CXXFLAGS = -std=c++11 -Wall -fmessage-length=50
+CXXFLAGS = -std=c++11 -L/home/psw-is-psw/bin/gsl/lib -Wall -fmessage-length=50
 OPTFLAGS = -O2
 DEBUGFLAGS = -g
 

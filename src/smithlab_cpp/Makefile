@@ -23,7 +23,7 @@ SOURCES = $(filter-out SAM.cpp,$(wildcard *.cpp))
 OBJECTS = $(patsubst %.cpp,%.o,$(SOURCES))
 
 CXX = g++
-CXXFLAGS = -Wall -std=c++11
+CXXFLAGS = -Wall -L/home/psw-is-psw/bin/gsl/lib -std=c++11
 OPTFLAGS = -O2
 DEBUGFLAGS = -g
 
