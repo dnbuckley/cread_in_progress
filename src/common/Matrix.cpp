@@ -67,7 +67,7 @@ Matrix::Matrix(vector<string> &s) {
       if (sscanf(s[i].c_str(), "%*d %f %f %f %f %*c", 
 		 column, &column[1], &column[2], &column[3]) - 
 	  alphabet_size != 0) {
-	delete[] column;
+	delete column;
 	throw MatrixException("Bad Matrix column line: " + s[i]);
       }
       columns.push_back(column);
