@@ -21,6 +21,7 @@
 
 #include "GeneralizedSuffixTree.hpp"
 #include <cassert>
+#include <iostream>
 
 using std::min;
 using std::max;
@@ -362,12 +363,13 @@ GeneralizedSuffixNode::BuildGeneralizedSuffixTree(string &text, size_t max_depth
   
   // set the maximum (string) depth of the tree
   max_depth = min(max_depth, text.length());
-
+  std::cout << "in bgst" << std::endl;
   GeneralizedSuffixNode *current_node = this->link = this;
   GeneralizedSuffixNode *previous_node = 0;
   
   // loop to insert each suffix
   for (size_t i = 0; i < text.length(); i++) {
+    std::cout << "in bgst for " << i << std::endl;
     // jump up until a node with a link is found (k keeps track of how
     // many nodes were jumped).
     int distance_above_insertion = 0; // Keeps track of nodes jumped up
@@ -376,11 +378,13 @@ GeneralizedSuffixNode::BuildGeneralizedSuffixTree(string &text, size_t max_depth
     if (current_node == current_node->link) {
       assert(this == current_node && 
 	     "current_node has self link, but is not root!");
+      std::cout << "in bgst if" << std::endl;
       // this clause should only be satisfied 3 times (alphabet_size
       // - 1) because it corresponds to insertion of a suffix that
       // starts with a completely new symbol.
-      if (distance_above_insertion > 0)
+      if (distance_above_insertion > 0){
 	--distance_above_insertion;
+        std::cout << "in bgst if 2" << std::endl;}
     }
     // Jump down the same number of nodes we jumped up.
     current_node = 
@@ -401,6 +405,7 @@ GeneralizedSuffixNode::BuildGeneralizedSuffixTree(string &text, size_t max_depth
     // preparation for the next iteration.
     previous_node = current_node;
   }
+  std::cout << "out of bgst for" << std::endl;
 }
 
 void
@@ -661,6 +666,7 @@ GeneralizedSuffixTree::index2seq_offset(size_t index) const {
 }
 
 GeneralizedSuffixTree::GeneralizedSuffixTree(const string& s, int d) : sequence(s) {
+  std::cout << "in gst 1" << std::endl;
   sequence.append("N");
   offset.push_back(0);
   offset.push_back(sequence.length() + 1);
@@ -672,21 +678,28 @@ GeneralizedSuffixTree::GeneralizedSuffixTree(const string& s, int d) : sequence(
 }
 
 GeneralizedSuffixTree::GeneralizedSuffixTree(const vector<string>& s, int d) {
+  std::cout << "in gst 2" << std::endl;
   size_t total = 0;
   vector<string>::const_iterator i(s.begin());
   for (; i != s.end(); ++i) {
+    std::cout << "in for" << std::endl;
     offset.push_back(total);
     sequence.append(*i);
     sequence.append("N");
     total += i->length() + 1;
   }
   offset.push_back(total);
-  if (d == -1)
-    depth = sequence.length();
-  else depth = d;
+  if (d == -1){
+    std::cout << "in gst if" << std::endl;
+    depth = sequence.length();}
+  else{ depth = d;
+  std::cout << "in gst else gst" << std::endl;}
   root = new GeneralizedSuffixNode();
+  std::cout << "in gst 3" << std::endl;
   root->BuildGeneralizedSuffixTree(sequence, depth);
+  std::cout << "in gst 4" << std::endl;
   root->CollectIndices();
+  std::cout << "in gst 5" << std::endl;
 }
 
 /******* FUNCTIONS DEALING WITH QUERIES *******/

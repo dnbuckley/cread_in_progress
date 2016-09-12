@@ -178,8 +178,8 @@ QuerySequenceNoPreprocessing(const string sequence, const vector<ScoringMatrix>&
 			     const vector<ScoringMatrix>& smrc,
 			     vector<vector<Hit> >& occ,
 			     const vector<float>& threshold, size_t sn) {
-  typedef pair<pair<size_t, size_t>, float> seq_pos_score;
-  typedef pair<size_t, size_t> seq_pos;
+  //typedef pair<pair<size_t, size_t>, float> seq_pos_score;
+  //typedef pair<size_t, size_t> seq_pos;
   vector<int> helper(sequence.length());
   transform(sequence.begin(), sequence.end(), 
 	    helper.begin(), &base2int);
@@ -212,7 +212,7 @@ QuerySequenceNoPreprocessing(const string& sequence,
 			     const vector<ScoringMatrix>& smrc, 
 			     vector<vector<Hit> >& occ, 
 			     size_t n_top, size_t sn) {
-  typedef pair<pair<size_t, size_t>, float> seq_pos_score;
+  //typedef pair<pair<size_t, size_t>, float> seq_pos_score;
   vector<int> helper(sequence.length());
   transform(sequence.begin(), sequence.end(), 
 	    helper.begin(), &base2int);
@@ -526,7 +526,7 @@ QuerySequenceSetByCount(const vector<string>& sequences,
     for (size_t i = 0; i < sm.size(); ++i) {
       //cout << "in for" << endl;
       if (contains_valid_site(sequences, sm[i].get_width())) {
-        cout << "in if" << endl;
+        //cout << "in if" << endl;
 	vector<seq_pos_score> temp_hits;
 	tree.top_scores_indices(temp_hits, n_top, sm[i]);
 	
