@@ -369,7 +369,6 @@ GeneralizedSuffixNode::BuildGeneralizedSuffixTree(string &text, size_t max_depth
   
   // loop to insert each suffix
   for (size_t i = 0; i < text.length(); i++) {
-    std::cout << "in bgst for " << i << std::endl;
     // jump up until a node with a link is found (k keeps track of how
     // many nodes were jumped).
     int distance_above_insertion = 0; // Keeps track of nodes jumped up
@@ -378,14 +377,11 @@ GeneralizedSuffixNode::BuildGeneralizedSuffixTree(string &text, size_t max_depth
     if (current_node == current_node->link) {
       assert(this == current_node && 
 	     "current_node has self link, but is not root!");
-      std::cout << "in bgst if" << std::endl;
       // this clause should only be satisfied 3 times (alphabet_size
       // - 1) because it corresponds to insertion of a suffix that
       // starts with a completely new symbol.
-      if (distance_above_insertion > 0){
+      if (distance_above_insertion > 0)
 	--distance_above_insertion;
-        std::cout << "in bgst if 2" << std::endl;}
-    }
     // Jump down the same number of nodes we jumped up.
     current_node = 
       current_node->link->JumpDown(text.c_str(), 
@@ -405,9 +401,9 @@ GeneralizedSuffixNode::BuildGeneralizedSuffixTree(string &text, size_t max_depth
     // preparation for the next iteration.
     previous_node = current_node;
   }
+  }
   std::cout << "out of bgst for" << std::endl;
 }
-
 void
 GeneralizedSuffixNode::CollectIndices() {
   if (child) {
@@ -418,12 +414,14 @@ GeneralizedSuffixNode::CollectIndices() {
     // just an 'N'.
     for (size_t i = 0; i <= alphabet_size; ++i)
       if (child[i]) {
+      std::cerr << "in ci if " << i << std::endl;
 	child[i]->CollectIndices();
 	const size_t previous_end = id.size();
 	id.insert(id.end(), child[i]->id.begin(), child[i]->id.end());
 	std::inplace_merge(id.begin(), id.begin() + previous_end, id.end());
       }
   }
+  std::cout << "out of ci if " << std::endl;
   /* The commented-out code below should not be needed, because all
      the ids should be at the leaves, and no id should be in more than
      one leaf. */
