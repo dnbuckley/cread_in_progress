@@ -21,7 +21,6 @@
 
 #include "GeneralizedSuffixTree.hpp"
 #include <cassert>
-#include <iostream>
 
 using std::min;
 using std::max;
@@ -110,7 +109,7 @@ public:
   
   static char Int2Base(size_t i) {
     static char itob[4] = { 'A', 'C', 'G', 'T' };
-    return (i<0 || i > 3) ? 'N' : itob[i]; //rm "i<0||" always false
+    return ( i > 3) ? 'N' : itob[i]; //rm "i<0||" always false
   }
   static int b2i(char b) {
     static int btoi[20] = {
@@ -363,7 +362,7 @@ GeneralizedSuffixNode::BuildGeneralizedSuffixTree(string &text, size_t max_depth
   
   // set the maximum (string) depth of the tree
   max_depth = min(max_depth, text.length());
-  std::cout << "in bgst" << std::endl;
+
   GeneralizedSuffixNode *current_node = this->link = this;
   GeneralizedSuffixNode *previous_node = 0;
   
@@ -382,6 +381,7 @@ GeneralizedSuffixNode::BuildGeneralizedSuffixTree(string &text, size_t max_depth
       // starts with a completely new symbol.
       if (distance_above_insertion > 0)
 	--distance_above_insertion;
+    }
     // Jump down the same number of nodes we jumped up.
     current_node = 
       current_node->link->JumpDown(text.c_str(), 
@@ -401,9 +401,8 @@ GeneralizedSuffixNode::BuildGeneralizedSuffixTree(string &text, size_t max_depth
     // preparation for the next iteration.
     previous_node = current_node;
   }
-  }
-  std::cout << "out of bgst for" << std::endl;
 }
+
 void
 GeneralizedSuffixNode::CollectIndices() {
   if (child) {
@@ -414,14 +413,12 @@ GeneralizedSuffixNode::CollectIndices() {
     // just an 'N'.
     for (size_t i = 0; i <= alphabet_size; ++i)
       if (child[i]) {
-      std::cerr << "in ci if " << i << std::endl;
 	child[i]->CollectIndices();
 	const size_t previous_end = id.size();
 	id.insert(id.end(), child[i]->id.begin(), child[i]->id.end());
 	std::inplace_merge(id.begin(), id.begin() + previous_end, id.end());
       }
   }
-  std::cout << "out of ci if " << std::endl;
   /* The commented-out code below should not be needed, because all
      the ids should be at the leaves, and no id should be in more than
      one leaf. */
@@ -664,7 +661,6 @@ GeneralizedSuffixTree::index2seq_offset(size_t index) const {
 }
 
 GeneralizedSuffixTree::GeneralizedSuffixTree(const string& s, int d) : sequence(s) {
-  std::cout << "in gst 1" << std::endl;
   sequence.append("N");
   offset.push_back(0);
   offset.push_back(sequence.length() + 1);
@@ -676,28 +672,21 @@ GeneralizedSuffixTree::GeneralizedSuffixTree(const string& s, int d) : sequence(
 }
 
 GeneralizedSuffixTree::GeneralizedSuffixTree(const vector<string>& s, int d) {
-  std::cout << "in gst 2" << std::endl;
   size_t total = 0;
   vector<string>::const_iterator i(s.begin());
   for (; i != s.end(); ++i) {
-    std::cout << "in for" << std::endl;
     offset.push_back(total);
     sequence.append(*i);
     sequence.append("N");
     total += i->length() + 1;
   }
   offset.push_back(total);
-  if (d == -1){
-    std::cout << "in gst if" << std::endl;
-    depth = sequence.length();}
-  else{ depth = d;
-  std::cout << "in gst else gst" << std::endl;}
+  if (d == -1)
+    depth = sequence.length();
+  else depth = d;
   root = new GeneralizedSuffixNode();
-  std::cout << "in gst 3" << std::endl;
   root->BuildGeneralizedSuffixTree(sequence, depth);
-  std::cout << "in gst 4" << std::endl;
   root->CollectIndices();
-  std::cout << "in gst 5" << std::endl;
 }
 
 /******* FUNCTIONS DEALING WITH QUERIES *******/

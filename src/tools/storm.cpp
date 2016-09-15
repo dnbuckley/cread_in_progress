@@ -178,8 +178,8 @@ QuerySequenceNoPreprocessing(const string sequence, const vector<ScoringMatrix>&
 			     const vector<ScoringMatrix>& smrc,
 			     vector<vector<Hit> >& occ,
 			     const vector<float>& threshold, size_t sn) {
-  //typedef pair<pair<size_t, size_t>, float> seq_pos_score;
-  //typedef pair<size_t, size_t> seq_pos;
+//  typedef pair<pair<size_t, size_t>, float> seq_pos_score;
+//  typedef pair<size_t, size_t> seq_pos;
   vector<int> helper(sequence.length());
   transform(sequence.begin(), sequence.end(), 
 	    helper.begin(), &base2int);
@@ -212,7 +212,7 @@ QuerySequenceNoPreprocessing(const string& sequence,
 			     const vector<ScoringMatrix>& smrc, 
 			     vector<vector<Hit> >& occ, 
 			     size_t n_top, size_t sn) {
-  //typedef pair<pair<size_t, size_t>, float> seq_pos_score;
+//  typedef pair<pair<size_t, size_t>, float> seq_pos_score;
   vector<int> helper(sequence.length());
   transform(sequence.begin(), sequence.end(), 
 	    helper.begin(), &base2int);
@@ -514,19 +514,14 @@ QuerySequenceSetByCount(const vector<string>& sequences,
 			const vector<ScoringMatrix>& smrc,
 			vector<vector<Hit> >& occ,
 			size_t n_top) {
-  cout << "in Query sequence set by count" << endl;
   if (no_preprocessing)
     if (handleties)
       QuerySequenceSetNoPreprocessingTies(sequences, sm, smrc, occ, n_top);
     else QuerySequenceSetNoPreprocessing(sequences, sm, smrc, occ, n_top);
   else {
-    cout << "in else 2" << endl;
     GeneralizedSuffixTree tree(sequences);
-    cout << "after else 2" << endl;
     for (size_t i = 0; i < sm.size(); ++i) {
-      //cout << "in for" << endl;
       if (contains_valid_site(sequences, sm[i].get_width())) {
-        //cout << "in if" << endl;
 	vector<seq_pos_score> temp_hits;
 	tree.top_scores_indices(temp_hits, n_top, sm[i]);
 	
@@ -895,7 +890,6 @@ struct MotifSitePtrEqual {
 void
 remove_duplicate_sites(const string progress_prefix, 
 		       vector<vector<MotifSite> >& sites) {
-  cout << "in remove_duplicate_sites" << endl;
   for (size_t i = 0; i < sites.size(); ++i) {
     if (VERBOSE) 
       cerr << "\r" << progress_prefix << "\t" 
@@ -951,7 +945,7 @@ file_progress_string(const string& filename,
 }
 
 int main(int argc, const char **argv) {
-  cout << "in main" << endl;
+  
 /* INPUT PARAMETERS */
   string seqfile;           // file containing foreground
        				     // sequences
@@ -1032,7 +1026,6 @@ int main(int argc, const char **argv) {
     // get the names of all the sequence files
     vector<string> seqfiles;
     if (!fasta_suffix.empty()) {
-      cout << " !fasta_suffix.empty" << endl;
       seqfiles = FastaFile::read_seqs_dir(seqfile.c_str(), fasta_suffix.c_str());
       if (VERBOSE)
 	cerr << "found " << seqfiles.size() 
@@ -1080,32 +1073,31 @@ int main(int argc, const char **argv) {
      * functional depth value, or a p-value. For p-values, a WordTable
      * must also be given.
      */
-    cout << "reading in motifs" << endl;
+    
     // read in the motifs
     vector<Motif> motifs(Motif::ReadMotifVector(motif_file.c_str()));
-    cout << "1" << endl;
+    
     // get the score cutoff associated with each motif
     vector<float> threshold;
-    if (threshold_param != numeric_limits<float>::max() || !threshold_label.empty()){
-      cout << "if threshold_param" << endl;
-      get_motif_thresholds(threshold, motifs);}
-cout << "2" << endl;
+    if (threshold_param != numeric_limits<float>::max() || !threshold_label.empty())
+      get_motif_thresholds(threshold, motifs);
+
     // extract the matrix from each motif
     vector<Matrix> matrices;
     transform(motifs.begin(), motifs.end(), back_inserter(matrices),
 	      mem_fun_ref(&Motif::get_matrix));
-cout << "3" << endl;
+
     // get a vector of motif widths
     vector<size_t> full_motif_widths;
     transform(motifs.begin(), motifs.end(), back_inserter(full_motif_widths),
 	      mem_fun_ref(&Motif::get_width));
-    cout << "4" << endl;
+    
     // make vector of scoring matrices (and their reverse complements
     // if needed).
     vector<ScoringMatrix> sm, smrc;
     size_t max_width;
     get_scoring_matrices(matrices, base_comp, sm, smrc, max_width);
-cout << "5" << endl;
+
     // CORES STUFF
     /* If we are calculating p-values, then sometimes we can't do that
      * for very long motifs, and so we get some shorter 'cores', which
@@ -1121,10 +1113,10 @@ cout << "5" << endl;
 	smrc[i] = sm[i].revcomp();
       }
     }
-    cout << "6" << endl;
+    
     StadenPValue *spv = (p_value && word_table.empty()) ?
       new StadenPValue(base_comp, 1000) : 0;
-    cout << "7" << endl;
+    
     if (!threshold.empty()) {
       // if thresholds were specified as functional depths, get
       // corresponding scores
@@ -1134,7 +1126,6 @@ cout << "5" << endl;
       else 
 	// if they were specified as p-values, get the corresponding
 	// scores
-  cout << "8" << endl;
 	if (p_value) {
 	  for (size_t i = 0; i < sm.size(); ++i) {
 	    if (VERBOSE)
@@ -1150,7 +1141,6 @@ cout << "5" << endl;
 	  if (VERBOSE)
 	    cerr << "\r" << "calculating score cutoff\t100%" << endl;
 	}
-  cout << "9" << endl;
       // correct the threshold to overcome roundoff errors... The
       // only thing more annoying than having to do this would be
       // taking the time to figure out the proper way to fix it
@@ -1169,7 +1159,7 @@ cout << "5" << endl;
     // later would not work because the actual sequence are needed,
     // and they might not still be available.
     vector<vector<MotifSite> > sites(motifs.size());
-cout << "10" << endl;
+
     // The variable below keeps track of how much of the total amount
     // of sequence (which might be divided across files) has been
     // processed.
@@ -1191,7 +1181,7 @@ cout << "10" << endl;
       // iterate over the chunks of the file, with 'j' always
       // indicating the offset of the current chunk within the file
       for (size_t j = 0; j < faa.get_filesize(); j += file_offset_increment) {
-	cout << "11" << endl;
+	
 	if (VERBOSE)
 	  cerr << file_progress_string(seqfiles[i], 
 				       current_progress, total_file_sizes,
@@ -1210,20 +1200,18 @@ cout << "10" << endl;
 	/* This is where we decide which type of search we want, and
 	 * call the appropriate function
 	 */
-	if (!threshold.empty() || bysequence){
-    cout << "!threshold.empty" << endl;
+	if (!threshold.empty() || bysequence)
 	  for (size_t k = 0; k < sequences.size(); ++k) {
 	    if (n_top > 0)
 	      // one sequence at a time, get top k matches
 	      QuerySequenceByCount(sequences[k], sm, smrc, occ, n_top, k);
 	    else
 	      // one sequence at a time, get everything above a cutoff
-	      QuerySequenceByThreshold(sequences[k], sm, smrc, occ, threshold, k);}
+	      QuerySequenceByThreshold(sequences[k], sm, smrc, occ, threshold, k);
 	  }
-	else{ // do all sequences at once -- we want top k matches in entire file
-	  cout << "in else" << endl;
-    QuerySequenceSetByCount(sequences, sm, smrc, occ, n_top);}
-	cout << "out of else" << endl;
+	else // do all sequences at once -- we want top k matches in entire file
+	  QuerySequenceSetByCount(sequences, sm, smrc, occ, n_top);
+	
 	// The 'first_seq_offset' is the offset of the first sequence
 	// in the current chunk from the start of that entire entire
 	// sequence (of which it is a suffix) in the FASTA file.
@@ -1231,14 +1219,12 @@ cout << "10" << endl;
 	
 	
 	// populate the sites vector from the occ vector
-	if (!word_table.c_str()){
-    cout << "!word_table.c_str" << endl;
+	if (!word_table.c_str())
 	  update_motif_sites(occ, sequences, seqnames, full_motif_widths, 
-			     first_seq_offset, cores, sites);}
-	else{
-    cout << "update_motif_sites" <<endl;
+			     first_seq_offset, cores, sites);
+	else
 	  update_motif_sites(occ, sequences, seqnames, full_motif_widths, 
-			     first_seq_offset, sites);}
+			     first_seq_offset, sites);
       }
       if (VERBOSE)
 	cerr << file_progress_string(seqfiles[i], 1, 1, 1, 1) << endl;
@@ -1257,7 +1243,7 @@ cout << "10" << endl;
      ******************************************************************/
     // First we get rid of duplicates
     remove_duplicate_sites("removing duplicate sites", sites);
-    cout << "13" << endl;
+    
     // now we make sure we only have the top 'k':
     if (n_top) {
       if (bysequence) // in each sequence
@@ -1282,7 +1268,7 @@ cout << "10" << endl;
     // p-values to start with.
     //     else if (word_table)
     //       convert_scores_to_pvals(sites, wt, cores);
-    cout << "14" << endl;
+    
     // now we add all the sites to the corresponding motifs
     if (VERBOSE)
       cerr << "adding new sites to motifs";
@@ -1291,7 +1277,7 @@ cout << "10" << endl;
 	motifs[i].add_site(sites[i][j]);
     if (VERBOSE)
       cerr << "\t" << "done" << endl;    
-    cout << "15" << endl;
+    
     // output the motifs (which have updated binding sites)
     ostream* out = (!outfile.empty()) ? new ofstream(outfile.c_str()) : &cout;
     copy(motifs.begin(), motifs.end(), ostream_iterator<Motif>(*out, "\n"));
