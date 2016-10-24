@@ -22,7 +22,6 @@
 #include "cread.hpp"
 #include "smithlab_utils.hpp"
 #include "smithlab_os.hpp"
-//#include "Alphabet.hpp"
 #include "FastaFile.hpp"
 #include "OptionParser.hpp"
 
@@ -68,6 +67,34 @@ static int b2i(char b) {
   };
   return (::toupper(b) > 'T' || ::toupper(b) < 'A') ? 
     -1 : btoi[::toupper(b) - 'A'];
+}
+
+size_t
+count_valid_bases(const std::string& s) {
+  return count_if(s.begin(), s.end(), &valid_base);
+}
+
+size_t
+count_valid_bases(const std::vector<std::string>& s) {
+  size_t n_valid = 0;
+  for (std::vector<std::string>::const_iterator i = s.begin(); i != s.end(); ++i)
+    n_valid += count_valid_bases(*i);
+  return n_valid;
+}
+
+void
+get_base_comp(const std::vector<std::string>& sequences, float *base_comp) {
+  std::fill(base_comp, base_comp + smithlab::alphabet_size, 0.0);
+  float total = 0;
+  for (std::vector<std::string>::const_iterator i = sequences.begin();
+       i != sequences.end(); ++i)
+    for (std::string::const_iterator j = i->begin(); j != i->end(); ++j)
+      if (valid_base(*j)) {
+        base_comp[base2int(*j)]++;
+        total++;
+      }
+  transform(base_comp, base_comp + smithlab::alphabet_size, base_comp,
+            std::bind(std::divides<float>(), std::placeholders::_1, total));
 }
 
 size_t random_nat(size_t upper) {
@@ -182,6 +209,7 @@ void target_basecomp(float fg_basecomp[alphabet_size],
     exit(EXIT_FAILURE);
   }
 }
+
 
 int main(int argc, const char **argv) {
 

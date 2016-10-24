@@ -25,7 +25,6 @@
 
 #include "cread.hpp"
 #include "Word.hpp"
-//#include "Alphabet.hpp"
 #include "FastaFile.hpp"
 #include "SuffixTree.hpp"
 #include "WordMatcher.hpp"
@@ -51,6 +50,21 @@ const char *kmer_count_label = "COUNT";
 const char *kmer_freq_label = "FREQUENCY";
 const char *kmer_freq_lod_label = "FREQUENCY_LOD";
 const char *kmer_freq_rel_lod_label = "RELATIVE_FREQUENCY_LOD";
+
+void
+inline get_base_comp(const std::vector<std::string>& sequences, std::vector<float>& base_comp) {
+  std::vector<size_t> count(smithlab::alphabet_size, 0);
+  for (std::vector<std::string>::const_iterator i = sequences.begin();
+       i != sequences.end(); ++i)
+    for (std::string::const_iterator j = i->begin(); j != i->end(); ++j)
+      if (valid_base(*j)) {
+        count[base2int(*j)]++;
+      }
+  const float total = std::accumulate(count.begin(), count.end(), 0.0);
+  base_comp.clear();
+  transform(count.begin(), count.end(), back_inserter(base_comp),
+            std::bind(std::divides<float>(), std::placeholders::_1, total));
+}
 
 float
 expected_freq(const string &s, const vector<float>& base_comp) {

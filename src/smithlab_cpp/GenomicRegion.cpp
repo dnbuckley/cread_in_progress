@@ -481,12 +481,12 @@ ReadBEDFile(string filename, vector<GenomicRegion> &the_regions) {
   // open and check the file
   std::ifstream in(filename.c_str());
   if (!in)
-    throw BEDFileException("cannot open input file " + filename);
+    throw BEDFileExceptionGR("cannot open input file " + filename);
   while (!in.eof()) {
     char buffer[buffer_size];
     in.getline(buffer, buffer_size);
     if (in.gcount() == buffer_size - 1)
-      throw BEDFileException("Line too long in file: " + filename);
+      throw BEDFileExceptionGR("Line too long in file: " + filename);
     if (!is_header_line(buffer) && !is_track_line(buffer)) {
       // const string line(buffer);
       the_regions.push_back(GenomicRegion(buffer));
@@ -501,7 +501,7 @@ void
 ReadBEDFile(string filename, vector<SimpleGenomicRegion> &the_regions) {
   std::ifstream in(filename.c_str());
   if (!in.good())
-    throw BEDFileException("cannot open input file " + filename);
+    throw BEDFileExceptionGR("cannot open input file " + filename);
   size_t begin_pos = in.tellg();
   in.seekg(0, std::ios_base::end);
   size_t end_pos = in.tellg();
@@ -719,4 +719,31 @@ extract_regions_fasta(const string &dirname,
     extract_regions_chrom_fasta(chrom_name, filenames[f_idx->second],
                                 regions[i], sequences);
   }
+}
+
+GenomicRegion
+intersection(const GenomicRegion& a, const GenomicRegion& b) {
+  if (!a.overlaps(b)) return GenomicRegion(a.get_chrom(), 0, 0);
+  else if (a.contains(b)) return b;
+  else if (b.contains(a)) return a;
+  if (a < b)
+    if (a.contains(b)) return b;
+    else return GenomicRegion(a.get_chrom(), b.get_start(), a.get_end());
+  else 
+    if (b.contains(a)) return a;
+    else return GenomicRegion(a.get_chrom(), a.get_start(), b.get_end());
+}
+
+
+SimpleGenomicRegion
+intersection(const SimpleGenomicRegion& a, const SimpleGenomicRegion& b) {
+  if (!a.overlaps(b)) return SimpleGenomicRegion(a.get_chrom(), 0, 0);
+  else if (a.contains(b)) return b;
+  else if (b.contains(a)) return a;
+  if (a < b)
+    if (a.contains(b)) return b;
+    else return SimpleGenomicRegion(a.get_chrom(), b.get_start(), a.get_end());
+  else 
+    if (b.contains(a)) return a;
+    else return SimpleGenomicRegion(a.get_chrom(), a.get_start(), b.get_end());
 }

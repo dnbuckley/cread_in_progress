@@ -23,7 +23,6 @@
 #include "FastaFile.hpp"
 #include "Motif.hpp"
 #include "SuffixTree.hpp"
-//#include "Alphabet.hpp"
 #include "smithlab_utils.hpp"
 #include "smithlab_os.hpp"
 #include "OptionParser.hpp"
@@ -78,6 +77,34 @@ const char *binomthresh_label    = "BINOMIAL_THRESHOLD";
 const char *binomfuncdepth_label = "BINOMIAL_FUNCTIONAL_DEPTH";
 
 const char *rank_suffix = "_RANK";
+
+size_t
+count_valid_bases(const std::string& s) {
+  return count_if(s.begin(), s.end(), &valid_base);
+}
+
+size_t
+count_valid_bases(const std::vector<std::string>& s) {
+  size_t n_valid = 0;
+  for (std::vector<std::string>::const_iterator i = s.begin(); i != s.end(); ++i)
+    n_valid += count_valid_bases(*i);
+  return n_valid;
+}
+
+void
+get_base_comp(const std::vector<std::string>& sequences, float *base_comp) {
+  std::fill(base_comp, base_comp + smithlab::alphabet_size, 0.0);
+  float total = 0;
+  for (std::vector<std::string>::const_iterator i = sequences.begin();
+       i != sequences.end(); ++i)
+    for (std::string::const_iterator j = i->begin(); j != i->end(); ++j)
+      if (valid_base(*j)) {
+        base_comp[base2int(*j)]++;
+        total++;
+      }
+  transform(base_comp, base_comp + smithlab::alphabet_size, base_comp,
+            std::bind(std::divides<float>(), std::placeholders::_1, total));
+}
 
 double lnchoose(const size_t n, const size_t k) {
   double sum = 0;

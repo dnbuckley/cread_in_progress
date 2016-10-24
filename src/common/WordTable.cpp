@@ -20,7 +20,6 @@
  */
 
 #include "WordTable.hpp"
-//#include "Alphabet.hpp"
 #include "smithlab_utils.hpp"
 
 using std::string;
@@ -42,6 +41,21 @@ using std::cerr;
 
 const float WordTable::tolerance = 0.0001;
 const float WordTable::increment = 0.05;
+
+void
+inline get_base_comp(const std::vector<std::string>& sequences, float *base_comp) {
+  std::fill(base_comp, base_comp + smithlab::alphabet_size, 0.0);
+  float total = 0;
+  for (std::vector<std::string>::const_iterator i = sequences.begin();
+       i != sequences.end(); ++i)
+    for (std::string::const_iterator j = i->begin(); j != i->end(); ++j)
+      if (valid_base(*j)) {
+        base_comp[base2int(*j)]++;
+        total++;
+      }
+  transform(base_comp, base_comp + smithlab::alphabet_size, base_comp,
+            std::bind(std::divides<float>(), std::placeholders::_1, total));
+}
 
 WordTable::WordTable(std::vector<string> &seqs, size_t wordsize, 
 		     size_t gapstart, size_t maxgap) :

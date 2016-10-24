@@ -29,11 +29,11 @@ endif
 PROGS = basecomp bbcomp decoymasker getcontext \
 	formattable joinmotifs motifclass uniqmotifs \
 	matcompare feateval kmercomp sortmotifs \
-        storm
+        storm multistorm
 
 CXX = g++
 CFLAGS = -Wall -fmessage-length=50
-CXXFLAGS = -std=c++11 -L/home/psw-is-psw/bin/gsl/lib -Wall -fmessage-length=50
+CXXFLAGS = -std=c++11 -Wall -fmessage-length=50
 OPTFLAGS = -O2
 DEBUGFLAGS = -g
 
@@ -62,17 +62,19 @@ install: $(PROGS)
 $(PROGS): $(addprefix $(SMITHLAB_CPP)/, \
 	smithlab_os.o smithlab_utils.o GenomicRegion.o OptionParser.o)
 
+#multistorm: $(addprefix $(COMMON_DIR)/, Motif.o ScoringMatrix.o GenomeAlignment.o BEDFile.o GenomeUtils.o)
+
 bbcomp decoymasker getcontext formattable motifclass kmercomp sortmotifs storm: \
           $(addprefix $(COMMON_DIR)/, FastaFile.o)
 
-getcontext joinmotifs motifclass uniqmotifs matcompare sortmotifs storm: \
+getcontext joinmotifs motifclass uniqmotifs matcompare sortmotifs storm multistorm: \
           $(addprefix $(COMMON_DIR)/,  Motif.o MotifSite.o Matrix.o Pattern.o)
 
-formattable: $(addprefix $(COMMON_DIR)/, WordTable.o ScoringMatrix.o Matrix.o)
+formattable multistorm: $(addprefix $(COMMON_DIR)/, WordTable.o ScoringMatrix.o Matrix.o)
 
 joinmotifs uniqmotifs matcompare: $(addprefix $(COMMON_DIR)/, MatCompMethods.o)
 
-motifclass storm: $(addprefix $(COMMON_DIR)/, SuffixTree.o ScoringMatrix.o)
+motifclass storm motifclass: $(addprefix $(COMMON_DIR)/, SuffixTree.o ScoringMatrix.o)
 
 uniqmotifs matcompare sortmotifs: $(addprefix $(COMMON_DIR)/, \
 	Module.o ModuleSite.o)
@@ -81,12 +83,24 @@ feateval kmercomp: $(addprefix $(COMMON_DIR)/,  Pattern.o SuffixTree.o )
 
 kmercomp sortmotifs: $(addprefix $(COMMON_DIR)/, Word.o WordMatcher.o WordSite.o)
 
-mafutil: $(addprefix $(COMMON_DIR)/, GenomeUtils.o \
-	GenomeAlignment.o BEDFile.o)
+multistorm: $(addprefix $(COMMON_DIR)/, GenomeUtils.o \
+	GenomeAlignment.o)
 
 sortmotifs: $(addprefix $(COMMON_DIR)/, PatternFactory.o)
 
+#multistorm: $(addprefix $(COMMON_DIR)/, GenomeAlignment.o)
+
 storm: $(addprefix $(COMMON_DIR)/, IndexedSuffixTree.o GeneralizedSuffixTree.o WordTable.o)
+
+
+#include "cread.hpp"
+#include "Motif.hpp"
+#include "ScoringMatrix.hpp"
+#include "GenomicRegion.hpp"
+#include "smithlab_utils.hpp"
+#include "GenomeUtils.hpp"
+#include "GenomeAlignment.hpp"
+
 
 %.o: %.cpp %.hpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $< $(INCLUDEARGS)

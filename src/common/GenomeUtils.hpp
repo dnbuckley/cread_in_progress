@@ -24,7 +24,7 @@
 
 #include "cread.hpp"
 
-void
+inline void
 parse_region_name(std::string region_name,
 		  std::string& chrom, size_t &start, size_t &end);
 

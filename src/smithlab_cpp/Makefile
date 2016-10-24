@@ -23,7 +23,7 @@ SOURCES = $(filter-out SAM.cpp,$(wildcard *.cpp))
 OBJECTS = $(patsubst %.cpp,%.o,$(SOURCES))
 
 CXX = g++
-CXXFLAGS = -Wall -L/home/psw-is-psw/bin/gsl/lib -std=c++11
+CXXFLAGS = -Wall -std=c++11
 OPTFLAGS = -O2
 DEBUGFLAGS = -g
 
@@ -33,6 +33,15 @@ endif
 
 ifdef OPT
 CXXFLAGS += $(OPTFLAGS)
+endif
+
+# Flags for Mavericks
+ifeq "$(shell uname)" "Darwin"
+CXXFLAGS += -arch x86_64
+ifeq "$(shell if [ `sysctl -n kern.osrelease | cut -d . -f 1` -ge 13 ];\
+              then echo 'true'; fi)" "true"
+CXXFLAGS += -stdlib=libstdc++
+endif
 endif
 
 all: $(OBJECTS)

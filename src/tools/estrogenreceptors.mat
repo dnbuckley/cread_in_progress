@@ -1,0 +1,231 @@
+AC  M00191
+XX
+TY  Motif
+XX
+ID  V$ER_Q6
+XX
+DT  28.08.1995 (created); dbo.
+DT  11.03.2003 (updated); dtc.
+CO  Copyright (C), Biobase GmbH.
+XX
+NA  ER
+XX
+DE  estrogen receptor
+XX
+BF  T00261; ER-alpha; Species: human, Homo sapiens.
+BF  T00258; ER-alpha; Species: rat, Rattus norvegicus.
+BF  T00259; ER-alpha; Species: mouse, Mus musculus.
+BF  T00264; ER-alpha; Species: chick, Gallus gallus.
+BF  T08300; ER-alpha-L; Species: human, Homo sapiens.
+XX
+P0      A      C      G      T
+01      6      4      4      6      N
+02      4      9      3      4      N
+03     12      4      3      1      A
+04      6      1     11      2      R
+05      3      2     11      4      G
+06      3      3      4     10      N
+07      3     10      3      4      C
+08     11      2      4      3      A
+09      4      9      3      4      N
+10      3      6      3      8      N
+11      2      3      9      6      N
+12      0      1      0     19      T
+13      1      0     19      0      G
+14     20      0      0      0      A
+15      0     18      2      0      C
+16      1     18      1      0      C
+17      2      7      2      9      Y
+18      7      1      8      4      N
+19      8      5      3      4      N
+XX
+BA  20 compiled sequences
+XX
+CC  TRANSFAC Sites of quality <= 6
+XX
+AT  NAME=ER
+XX
+//
+AC  M00469
+XX
+TY  Motif
+XX
+ID  V$AP2ALPHA_01
+XX
+DT  04.09.2001 (created); rio.
+DT  04.09.2001 (updated); rio.
+CO  Copyright (C), Biobase GmbH.
+XX
+NA  AP-2alpha
+XX
+BF  T00033; AP-2alpha; Species: mouse, Mus musculus.
+BF  T02488; AP-2alpha isoform 2; Species: mouse, Mus musculus.
+BF  T02489; AP-2alpha isoform 3; Species: mouse, Mus musculus.
+BF  T02490; AP-2alpha isoform 4; Species: mouse, Mus musculus.
+BF  T00035; AP-2alphaA; Species: human, Homo sapiens.
+XX
+P0      A      C      G      T
+01      0      0    185      0      G
+02      0    185      0      0      C
+03      0    185      0      0      C
+04     22     71     46     46      N
+05     19     57     61     48      N
+06     55     44     67     19      N
+07     53     30     91     11      R
+08     19     16    137     13      G
+09      9     78     79     19      S
+XX
+BA  185 sites selected from random oligonucleotides (SELEX)
+XX
+CC  4 rounds of selection
+XX
+RN  [1]; RE0016805.
+RX  PUBMED: 10497269.
+RA  McPherson L. A., Weigel R. J.
+RT  AP2alpha and AP2gamma: a comparison of binding site specificity and trans-activation of the estrogen receptor promoter and single site promoter constructs
+RL  Nucleic Acids Res. 27:4040-4049 (1999).
+XX
+AT  NAME=AP2
+XX
+//
+AC  M00470
+XX
+TY  Motif
+XX
+ID  V$AP2GAMMA_01
+XX
+DT  04.09.2001 (created); rio.
+DT  04.09.2001 (updated); rio.
+CO  Copyright (C), Biobase GmbH.
+XX
+NA  AP-2gamma
+XX
+BF  T02468; AP-2gamma; Species: human, Homo sapiens.
+BF  T02470; AP-2gamma; Species: mouse, Mus musculus.
+BF  T09207; AP-2gamma; Species: human, Homo sapiens.
+BF  T10482; AP-2gamma; Species: mouse, Mus musculus.
+XX
+P0      A      C      G      T
+01      0      0    146      0      G
+02      0    146      0      0      C
+03      0    146      0      0      C
+04      4     65     31     46      Y
+05     14     46     58     28      N
+06     46     35     57      8      N
+07     28     13     93     12      G
+08     12      9    116      9      G
+09     11     56     63     16      S
+XX
+BA  146 sites selected from random oligonucleotides (SELEX)
+XX
+CC  4 rounds of selection
+XX
+RN  [1]; RE0016805.
+RX  PUBMED: 10497269.
+RA  McPherson L. A., Weigel R. J.
+RT  AP2alpha and AP2gamma: a comparison of binding site specificity and trans-activation of the estrogen receptor promoter and single site promoter constructs
+RL  Nucleic Acids Res. 27:4040-4049 (1999).
+XX
+AT  NAME=AP2
+XX
+//
+AC  M00511
+XX
+TY  Motif
+XX
+ID  V$ERR1_Q2
+XX
+DT  05.11.2001 (created); mas.
+DT  28.09.2005 (updated); vma.
+CO  Copyright (C), Biobase GmbH.
+XX
+NA  ERR alpha
+XX
+DE  estrogen-related receptor alpha
+XX
+BF  T02765; ERR1; Species: human, Homo sapiens.
+BF  T04849; ERR1; Species: mouse, Mus musculus.
+XX
+P0      A      C      G      T
+01      9      4      4      8      N
+02      4      6      8      7      N
+03      8      7      5      5      N
+04      5      2      3     15      T
+05      8     10      6      1      N
+06     16      1      6      2      A
+07     23      1      0      1      A
+08      0      0     25      0      G
+09      0      0     25      0      G
+10      3      0      0     22      T
+11      0     23      2      0      C
+12     23      1      0      1      A
+13      5      6      5      9      N
+14     11      4      4      6      N
+XX
+BA  25 binding sites selected from random oligonucleotides (SELEX)
+XX
+AT  NAME=ERR1
+XX
+XX
+CC  8 rounds of selections (PCR-based) containing a random core of 30 nt with two primers of 20 nt each; contains a potential hexamer half-site for nuclear receptor binding (pos. 7-12)
+XX
+RN  [1]; RE0017042.
+RX  PUBMED: 9271417.
+RA  Sladek R., Bader J. A., Giguere V.
+RT  The orphan nuclear receptor estrogen-related receptor alpha is a transcriptional regulator of the human medium-chain acyl coenzyme A dehydrogenase gene
+RL  Mol. Cell. Biol. 17:5400-5409 (1997).
+XX
+//
+AC  M00959
+XX
+TY  Motif
+XX
+ID  V$ER_Q6_02
+XX
+DT  18.11.2003 (created); dtc.
+DT  28.09.2005 (updated); vma.
+CO  Copyright (C), Biobase GmbH.
+XX
+NA  ER
+XX
+DE  half-site matrix, half-ERE
+XX
+BF  T00261; ER-alpha; Species: human, Homo sapiens.
+BF  T00258; ER-alpha; Species: rat, Rattus norvegicus.
+BF  T00259; ER-alpha; Species: mouse, Mus musculus.
+BF  T00262; ER-alpha; Species: cattle, Bos taurus.
+BF  T00263; ER-alpha; Species: clawed frog, Xenopus laevis.
+BF  T00264; ER-alpha; Species: chick, Gallus gallus.
+BF  T05703; ER-alpha; Species: rabbit, Oryctolagus cuniculus.
+BF  T08300; ER-alpha-L; Species: human, Homo sapiens.
+BF  T05702; ER-alpha:ER-beta; Species: human, Homo sapiens.
+BF  T02764; ER-beta; Species: rat, Rattus norvegicus.
+BF  T04651; ER-beta; Species: human, Homo sapiens.
+BF  T04649; ER-beta1; Species: mouse, Mus musculus.
+XX
+P0      A      C      G      T
+01      9     16      8      6      N
+02     29      3      7      0      A
+03      1      0     36      2      G
+04      0      0     39      0      G
+05      1      0      3     35      T
+06      1     35      3      0      C
+07     37      1      0      1      A
+08      6     17      8      8      N
+09      7     11     16      5      N
+10      7     11     17      4      N
+11      4     11      3     21      Y
+XX
+BA  39 compiled sequences including 3 TRANSCompel sites
+XX
+AT  NAME=ER
+XX
+XX
+CC  half-site of ERE (estrogen response element)
+XX
+RN  [1]; RE0017571.
+RA  TRANSFAC_Team.
+RT  New TRANSFAC MATRIX entries
+RL  TRANSFAC Reports 3:0001 (2002).
+XX
+//

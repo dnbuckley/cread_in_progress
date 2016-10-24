@@ -222,6 +222,3 @@ smithlab::squash(const std::vector<std::string>& v) {
   return res;
 }
 
-
-
-////////////////code from alphabet.cpp///////////

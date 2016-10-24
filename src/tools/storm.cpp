@@ -111,6 +111,11 @@ bool contains_valid_site(const vector<string>& sequences, const size_t width) {
   return false;
 }
 
+bool
+inline valid_base_id(int c) {
+  return (c < static_cast<int>(smithlab::alphabet_size) && c >= 0);
+}
+
 // TODO: get rid of this hit thing, and just use a "Site"
 struct Hit {
   int seq, pos;

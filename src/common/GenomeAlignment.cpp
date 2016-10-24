@@ -20,7 +20,6 @@
  */
 
 #include "GenomeAlignment.hpp"
-//#include "Alphabet.hpp"
 #include "BEDFile.hpp"
 #include "smithlab_utils.hpp"
 

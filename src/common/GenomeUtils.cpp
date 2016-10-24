@@ -31,7 +31,7 @@ static const char *whitespace = " \t";
 // define what to do if parts are missing: if no ':' or '-', is whole
 // thing chrom?
 
-void
+inline void
 parse_region_name(string region_name, 
 		  string& chrom, size_t &start, size_t &end) {
   

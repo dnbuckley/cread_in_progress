@@ -201,7 +201,7 @@ BigFastaFile::get_sequences(const size_t chunk_start,
                    bind2nd(std::equal_to<char>(), '\n'));
   }
   // done with the buffer, let's delete it
-  delete buffer;
+  delete[] buffer;
   // turn anything not in {a,A,c,C,g,G,t,T} to an N
   FastaFile::clean(sequences);
   // make every base upper case

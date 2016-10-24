@@ -29,7 +29,6 @@
 #include "cread.hpp"
 #include "WordSite.hpp"
 #include "Pattern.hpp"
-//#include "Alphabet.hpp"
 #include "smithlab_utils.hpp"
 
 /*!

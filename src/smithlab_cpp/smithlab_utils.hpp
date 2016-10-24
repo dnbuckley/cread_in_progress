@@ -352,78 +352,6 @@ inline valid_base(char c) {
   return (i == 'A' || i == 'C' || i == 'G' || i == 'T');
 }
 
-bool
-inline isgap(char c) {
-  return c == '-';
-}
-
-void
-inline get_base_comp(const std::vector<std::string>& sequences, float *base_comp) {
-  std::fill(base_comp, base_comp + smithlab::alphabet_size, 0.0);
-  float total = 0;
-  for (std::vector<std::string>::const_iterator i = sequences.begin();
-       i != sequences.end(); ++i)
-    for (std::string::const_iterator j = i->begin(); j != i->end(); ++j)
-      if (valid_base(*j)) {
-        base_comp[base2int(*j)]++;
-        total++;
-      }
-  transform(base_comp, base_comp + smithlab::alphabet_size, base_comp,
-            std::bind(std::divides<float>(), std::placeholders::_1, total));
-}
-
-
-void
-inline get_base_comp(const std::vector<std::string>& sequences, std::vector<float>& base_comp) {
-  std::vector<size_t> count(smithlab::alphabet_size, 0);
-  for (std::vector<std::string>::const_iterator i = sequences.begin();
-       i != sequences.end(); ++i)
-    for (std::string::const_iterator j = i->begin(); j != i->end(); ++j)
-      if (valid_base(*j)) {
-        count[base2int(*j)]++;
-      }
-  const float total = std::accumulate(count.begin(), count.end(), 0.0);
-  base_comp.clear();
-  transform(count.begin(), count.end(), back_inserter(base_comp),
-            std::bind(std::divides<float>(), std::placeholders::_1, total));
-}
-
-
-void
-inline get_base_comp(const std::vector<std::string>& sequences, std::vector<double>& base_comp) {
-  std::vector<size_t> count(smithlab::alphabet_size, 0);
-  for (std::vector<std::string>::const_iterator i = sequences.begin();
-       i != sequences.end(); ++i)
-    for (std::string::const_iterator j = i->begin(); j != i->end(); ++j)
-      if (valid_base(*j)) {
-        count[base2int(*j)]++;
-      }
-  const double total = std::accumulate(count.begin(), count.end(), 0.0);
-  base_comp.clear();
-  transform(count.begin(), count.end(), back_inserter(base_comp),
-            std::bind(std::divides<double>(), std::placeholders::_1, total));
-}
-
-bool
-inline valid_base_id(int c) {
-  return (c < static_cast<int>(smithlab::alphabet_size) && c >= 0);
-}
-
-
-size_t
-inline count_valid_bases(const std::string& s) {
-  return count_if(s.begin(), s.end(), &valid_base);
-}
-
-
-size_t
-inline count_valid_bases(const std::vector<std::string>& s) {
-  size_t n_valid = 0;
-  for (std::vector<std::string>::const_iterator i = s.begin(); i != s.end(); ++i)
-    n_valid += count_valid_bases(*i);
-  return n_valid;
-}
-
 size_t
 inline mer2index(const char *s, size_t n) {
   size_t multiplier = 1, index = 0;
@@ -459,6 +387,7 @@ inline kmer_counts(const std::vector<std::string> &seqs,
 
 
 #endif
+
 
 
 

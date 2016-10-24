@@ -401,9 +401,9 @@ WriteBEDFile(const std::string filename,
   out.close();
 }
 
-class BEDFileException : public SMITHLABException {
+class BEDFileExceptionGR : public SMITHLABException {
 public:
-  BEDFileException(std::string s = std::string())
+  BEDFileExceptionGR(std::string s = std::string())
     throw() : SMITHLABException(s) {}
 };
 
@@ -447,6 +447,15 @@ void
 extract_regions_fasta(const std::string &dirname,
                       const std::vector<GenomicRegion> &regions_in,
                       std::vector<std::string> &sequences);
+
+SimpleGenomicRegion
+intersection(const SimpleGenomicRegion& a, const SimpleGenomicRegion& b);
+
+/*!
+  \brief Get the region contained in both given regions.
+*/
+GenomicRegion
+intersection(const GenomicRegion& a, const GenomicRegion& b);
 
 
 #endif

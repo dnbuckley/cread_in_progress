@@ -472,9 +472,11 @@ WriteBEDTracks(std::string filename,
   if (!out)
     throw BEDFileException("could not open file for writing: " + filename);
   out << the_header << std::endl;
-  for (size_t i = 0; i < the_tracks.size(); ++i)
-    out << the_tracks[i] << std::endl
-	<< the_regions[i] << std::endl;
+  for (size_t i = 0; i < the_tracks.size(); ++i){
+    out << the_tracks[i] << std::endl;
+    for (int j = 0; the_regions[i].size(); ++j)
+      out << the_regions[i][j] << std::endl;
+  }
   out.close();
 }
 
@@ -487,9 +489,11 @@ WriteBEDTracks(std::string filename,
   ofstream out(filename.c_str());
   if (!out)
     throw BEDFileException("could not open file for writing: " + filename);
-  for (size_t i = 0; i < the_tracks.size(); ++i)
-    out << the_tracks[i] << std::endl
-	<< the_regions[i] << std::endl;
+  for (size_t i = 0; i < the_tracks.size(); ++i){
+    out << the_tracks[i] << std::endl;
+    for (int j = 0; the_regions[i].size(); ++j)
+      out << the_regions[i][j] << std::endl;
+  }
   out.close();
 }
 
@@ -502,9 +506,11 @@ WriteBEDTracks(std::string filename,
   ofstream out(filename.c_str());
   if (!out)
     throw BEDFileException("could not open file for writing: " + filename);
-  for (size_t i = 0; i < the_tracks.size(); ++i)
-    out << the_tracks[i] << std::endl
-	<< the_regions[i] << std::endl;
+  for (size_t i = 0; i < the_tracks.size(); ++i){
+    out << the_tracks[i] << std::endl;
+    for (int j = 0; the_regions[i].size(); ++j)
+      out << the_regions[i][j] << std::endl;
+  }
   out.close();
 }
 
@@ -520,9 +526,11 @@ WriteBEDTracks(std::string filename,
   if (!out)
     throw BEDFileException("could not open file for writing: " + filename);
   out << the_header << std::endl;
-  for (size_t i = 0; i < the_tracks.size(); ++i)
-    out << the_tracks[i] << std::endl
-	<< the_regions[i] << std::endl;
+  for (size_t i = 0; i < the_tracks.size(); ++i){
+    out << the_tracks[i] << std::endl;
+    for (int j = 0; the_regions[i].size(); ++j)
+      out << the_regions[i][j] << std::endl;
+  }
   out.close();
 }
 
@@ -539,8 +547,9 @@ WriteBEDTrack(std::string filename,
   ofstream out(filename.c_str());
   if (!out)
     throw BEDFileException("could not open file for writing: " + filename);
-  out << the_track << std::endl
-      << the_regions << std::endl;
+  out << the_track << std::endl;
+  for(int i = 0; i < the_regions.size(); ++i)
+    out << the_regions[i] << std::endl;
   out.close();
 }
 
@@ -553,8 +562,9 @@ WriteBEDTrack(std::string filename,
   if (!out)
     throw BEDFileException("could not open file for writing: " + filename);
   out << the_header << std::endl
-      << the_track << std::endl
-      << the_regions << std::endl;
+      << the_track << std::endl;
+      for(int i = 0; i < the_regions.size(); ++i)
+        out << the_regions[i] << std::endl;
   out.close();
 }
 
@@ -566,8 +576,9 @@ WriteBEDTrack(std::string filename,
   ofstream out(filename.c_str());
   if (!out)
     throw BEDFileException("could not open file for writing: " + filename);
-  out << the_track << std::endl
-      << the_regions << std::endl;
+  out << the_track << std::endl;
+      for(int i = 0; i < the_regions.size(); ++i)
+        out << the_regions[i] << std::endl;
   out.close();
 }
 
@@ -581,8 +592,9 @@ WriteBEDTrack(std::string filename,
   if (!out)
     throw BEDFileException("could not open file for writing: " + filename);
   out << the_header << std::endl
-      << the_track << std::endl
-      << the_regions << std::endl;
+      << the_track << std::endl;
+      for(int i = 0; i < the_regions.size(); ++i)
+        out << the_regions[i] << std::endl;
   out.close();
 }
 
@@ -599,7 +611,8 @@ WriteBEDFile(std::string filename,
   ofstream out(filename.c_str());
   if (!out)
     throw BEDFileException("could not open file for writing: " + filename);
-  out << the_regions << std::endl;
+  for(int i = 0; i < the_regions.size(); ++i)
+    out << the_regions[i] << std::endl;
   out.close();
 }
 
@@ -610,7 +623,8 @@ WriteBEDFile(std::string filename,
   ofstream out(filename.c_str());
   if (!out)
     throw BEDFileException("could not open file for writing: " + filename);
-  out << the_regions << std::endl;
+  for(int i = 0; i < the_regions.size(); ++i)
+    out << the_regions[i] << std::endl;
   out.close();
 }
 

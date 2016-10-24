@@ -109,7 +109,7 @@ public:
   
   static char Int2Base(size_t i) {
     static char itob[4] = { 'A', 'C', 'G', 'T' };
-    return (i < 0 || i > 3) ? 'N' : itob[i];
+    return (i > 3) ? 'N' : itob[i];
     //original line = "return (i < 0 || i > 3) ? 'N' : itob[i];" 
   }
   static int b2i(char b) {
